@@ -8,6 +8,7 @@ Group:		Libraries
 Source0:	http://open.nit.ca/download/%{name}-%{version}.tar.gz
 # Source0-md5:	6fd341edd65d248f92338ba9e91a2875
 Patch0:		%{name}-rsapublickey.patch
+Patch1:		%{name}-gcc3.patch 
 BuildRequires:	openssl-devel >= 0.9.7a
 URL:		http://open.nit.ca/wvstreams/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -53,6 +54,7 @@ Statyczna wersja biblioteki wvstreams.
 %prep
 %setup  -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__make} CXX="%{__cxx}"
