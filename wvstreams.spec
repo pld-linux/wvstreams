@@ -8,7 +8,7 @@ Group:		Libraries
 Source0:	http://open.nit.ca/download/%{name}-%{version}.tar.gz
 # Source0-md5:	6fd341edd65d248f92338ba9e91a2875
 Patch0:		%{name}-rsapublickey.patch
-Patch1:		%{name}-gcc3.patch 
+Patch1:		%{name}-gcc3.patch
 BuildRequires:	openssl-devel >= 0.9.7a
 BuildRequires:	doxygen
 URL:		http://open.nit.ca/wvstreams/
