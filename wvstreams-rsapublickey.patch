@@ -1,0 +1,20 @@
+--- wvstreams-3.70/src/crypto/wvcrypto.cc~	Sat Mar 22 15:59:57 2003
++++ wvstreams-3.70/src/crypto/wvcrypto.cc	Sat Mar 22 15:58:11 2003
+@@ -159,7 +159,7 @@
+     
+     if (priv)
+     {
+-	rsa = d2i_RSAPrivateKey(&rp, &bufp, hexbytes/2);
++	rsa = d2i_RSAPrivateKey(&rp,(const unsigned char **) &bufp, hexbytes/2);
+ 	prv = keystr;
+ 	
+ 	size_t size;
+@@ -170,7 +170,7 @@
+     }
+     else
+     {
+-	rsa = d2i_RSAPublicKey(&rp, &bufp, hexbytes/2);
++	rsa = d2i_RSAPublicKey(&rp, (const unsigned char **)&bufp, hexbytes/2);
+ 	prv = NULL;
+ 	pub = keystr;
+     }
