@@ -11,7 +11,7 @@ Patch0:		%{name}-rsapublickey.patch
 Patch1:		%{name}-gcc3.patch
 URL:		http://open.nit.ca/wvstreams/
 BuildRequires:	doxygen
-BuildRequires:	openssl-devel >= 0.9.7c
+BuildRequires:	openssl-devel >= 0.9.7d
 Obsoletes:	libwvstreams
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
