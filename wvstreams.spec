@@ -61,7 +61,7 @@ Statyczna wersja biblioteki wvstreams.
 
 %build
 # despite .fpic rules the same .o files are used for .a and .so - need -fPIC
-%{__make} \
+%{__make} -j1 \
 	DEBUG=%{?debug:1}%{!?debug:0} \
 	CXX="%{__cxx}" \
 	CFLAGS="%{rpmcflags} -fPIC -DDEBUG=0 \$(OSDEFINE)"
