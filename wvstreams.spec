@@ -2,18 +2,18 @@ Summary:	A network programming library written in C++
 Summary(pl):	Biblioteka programowania sieciowego napisana w C++
 Name:		wvstreams
 Version:	3.70
-Release:	1
+Release:	2
 License:	LGPL
 Group:		Libraries
 Source0:	http://open.nit.ca/download/%{name}-%{version}.tar.gz
 # Source0-md5:	6fd341edd65d248f92338ba9e91a2875
 Patch0:		%{name}-rsapublickey.patch
 Patch1:		%{name}-gcc3.patch
-BuildRequires:	openssl-devel >= 0.9.7c
-BuildRequires:	doxygen
 URL:		http://open.nit.ca/wvstreams/
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+BuildRequires:	doxygen
+BuildRequires:	openssl-devel >= 0.9.7c
 Obsoletes:	libwvstreams
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 WvStreams aims to be an efficient, secure, and easy-to-use library for
@@ -27,7 +27,7 @@ do tworzenia aplikacji sieciowych.
 Summary:	Development files for WvStreams
 Summary(pl):	Pliki developerskie dla WvStreams
 Group:		Development/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 Obsoletes:	libwvstreams-devel
 
 %description devel
@@ -44,7 +44,7 @@ do tworzenia aplikacji u¿ywaj±cych WvStreams.
 Summary:	Static wvstreams library
 Summary(pl):	Statyczna biblioteka wvstreams
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}
+Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 Static wvstreams library.
@@ -53,25 +53,31 @@ Static wvstreams library.
 Statyczna wersja biblioteki wvstreams.
 
 %prep
-%setup  -q
+%setup -q
 %patch0 -p1
 %patch1 -p1
 
 %build
-%{__make} CXX="%{__cxx}"
+# despite .fpic rules the same .o files are used for .a and .so - need -fPIC
+%{__make} \
+	DEBUG=%{?debug:1}%{!?debug:0} \
+	CXX="%{__cxx}" \
+	CFLAGS="%{rpmcflags} -fPIC -DDEBUG=0"
+	
 %{__make} doxygen
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
-	PREFIX=$RPM_BUILD_ROOT%{_prefix}
-
-%post   -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+	PREFIX=$RPM_BUILD_ROOT%{_prefix} \
+	LIBDIR=$RPM_BUILD_ROOT%{_libdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post   -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
