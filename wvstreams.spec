@@ -6,7 +6,8 @@ Release:	1
 License:	LGPL
 Group:		Libraries
 Source0:	http://open.nit.ca/download/%{name}-%{version}.tar.gz
-BuildRequires:	openssl-devel >= 0.9.7
+Patch0:		%{name}-rsapublickey.patch
+BuildRequires:	openssl-devel >= 0.9.7a
 URL:		http://open.nit.ca/wvstreams/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	libwvstreams
@@ -50,6 +51,7 @@ Statyczna wersja biblioteki wvstreams.
 
 %prep
 %setup  -q
+%patch0 -p1
 
 %build
 %{__make} CXX="%{__cxx}"
