@@ -2,7 +2,7 @@ Summary:	A network programming library written in C++
 Summary(pl):	Biblioteka programowania sieciowego napisana w C++
 Name:		wvstreams
 Version:	3.70
-Release:	2
+Release:	3
 License:	LGPL
 Group:		Libraries
 Source0:	http://open.nit.ca/download/%{name}-%{version}.tar.gz
@@ -11,6 +11,7 @@ Patch0:		%{name}-rsapublickey.patch
 Patch1:		%{name}-gcc3.patch
 URL:		http://open.nit.ca/wvstreams/
 BuildRequires:	doxygen
+BuildRequires:	libstdc++-devel
 BuildRequires:	openssl-devel >= 0.9.7d
 Obsoletes:	libwvstreams
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -28,6 +29,7 @@ Summary:	Development files for WvStreams
 Summary(pl):	Pliki developerskie dla WvStreams
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	libstdc++-devel
 Obsoletes:	libwvstreams-devel
 
 %description devel
@@ -62,7 +64,7 @@ Statyczna wersja biblioteki wvstreams.
 %{__make} \
 	DEBUG=%{?debug:1}%{!?debug:0} \
 	CXX="%{__cxx}" \
-	CFLAGS="%{rpmcflags} -fPIC -DDEBUG=0"
+	CFLAGS="%{rpmcflags} -fPIC -DDEBUG=0 \$(OSDEFINE)"
 	
 %{__make} doxygen
 
