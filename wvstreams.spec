@@ -6,7 +6,7 @@ Release:	1
 License:	LGPL
 Group:		Libraries
 Source0:	http://open.nit.ca/download/%{name}-%{version}.tar.gz
-BuildRequires:	openssl-devel
+BuildRequires:	openssl-devel >= 0.9.6m
 URL:		http://open.nit.ca/wvstreams/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	libwvstreams
