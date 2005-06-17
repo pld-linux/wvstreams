@@ -1,14 +1,13 @@
 Summary:	A network programming library written in C++
 Summary(pl):	Biblioteka programowania sieciowego napisana w C++
 Name:		wvstreams
-Version:	3.70
-Release:	4
+Version:	4.0.2
+Release:	0.1
 License:	LGPL
 Group:		Libraries
-Source0:	http://open.nit.ca/download/%{name}-%{version}.tar.gz
-# Source0-md5:	6fd341edd65d248f92338ba9e91a2875
+Source0:	http://www.csclub.uwaterloo.ca/~ja2morri/%{name}-%{version}.tar.gz
+# Source0-md5:	ecb4e74ebaa1f45206f5d88eb34c5623
 Patch0:		%{name}-rsapublickey.patch
-Patch1:		%{name}-gcc3.patch
 URL:		http://open.nit.ca/wvstreams/
 BuildRequires:	doxygen
 BuildRequires:	libstdc++-devel
@@ -56,11 +55,17 @@ Statyczna wersja biblioteki wvstreams.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
+#%patch0 -p1
+#ugly hack - fix it
+cp include/wvsslhacks.h crypto
+cp include/wvtelephony.h telephony
 
 %build
 # despite .fpic rules the same .o files are used for .a and .so - need -fPIC
+%{__aclocal}
+%{__autoconf}
+%{__autoheader}
+%configure
 %{__make} -j1 \
 	DEBUG=%{?debug:1}%{!?debug:0} \
 	CXX="%{__cxx}" \
@@ -72,8 +77,7 @@ Statyczna wersja biblioteki wvstreams.
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
-	PREFIX=$RPM_BUILD_ROOT%{_prefix} \
-	LIBDIR=$RPM_BUILD_ROOT%{_libdir}
+	DESTDIR=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -83,12 +87,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc src/README
+%doc README ChangeLog
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
 
 %files devel
 %defattr(644,root,root,755)
-%doc dox/html/*
+%doc Docs/doxy-html/*
 %attr(755,root,root) %{_libdir}/lib*.so
 %{_includedir}/wvstreams
 
