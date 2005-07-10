@@ -65,6 +65,7 @@ cp include/wvtelephony.h telephony
 %{__aclocal}
 %{__autoconf}
 %{__autoheader}
+cp -f /usr/share/automake/config.sub xplc
 %configure
 %{__make} -j1 \
 	DEBUG=%{?debug:1}%{!?debug:0} \
