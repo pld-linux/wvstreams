@@ -9,6 +9,8 @@ Source0:	http://www.csclub.uwaterloo.ca/~ja2morri/%{name}-%{version}.tar.gz
 # Source0-md5:	ecb4e74ebaa1f45206f5d88eb34c5623
 Patch0:		%{name}-rsapublickey.patch
 URL:		http://open.nit.ca/wvstreams/
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	doxygen
 BuildRequires:	libstdc++-devel
 BuildRequires:	openssl-devel >= 0.9.7d
