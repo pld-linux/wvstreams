@@ -1,0 +1,24 @@
+diff -ur wvstreams-4.0.2/include/unilistgen.h wvstreams-4.0.2.gcc4/include/unilistgen.h
+--- wvstreams-4.0.2/include/unilistgen.h	2005-03-24 03:01:23.000000000 +0100
++++ wvstreams-4.0.2.gcc4/include/unilistgen.h	2006-01-18 21:22:04.000000000 +0100
+@@ -31,7 +31,7 @@
+ {
+ public:
+     UniListGen(UniConfGenList *_l);
+-    virtual UniListGen::~UniListGen() { delete l; }
++    virtual ~UniListGen() { delete l; }
+ 
+     UniConfGenList *l;
+     UniConfGenList::Iter i;
+diff -ur wvstreams-4.0.2/include/wvhttppool.h wvstreams-4.0.2.gcc4/include/wvhttppool.h
+--- wvstreams-4.0.2/include/wvhttppool.h	2005-03-24 03:01:23.000000000 +0100
++++ wvstreams-4.0.2.gcc4/include/wvhttppool.h	2006-01-18 21:22:20.000000000 +0100
+@@ -57,7 +57,7 @@
+     WvString linkname;
+     WvUrl url;
+ 
+-    WvUrlLink::WvUrlLink(WvStringParm _linkname, WvStringParm _url)
++    WvUrlLink(WvStringParm _linkname, WvStringParm _url)
+ 	: linkname(_linkname), url(_url)
+     {}
+ };
