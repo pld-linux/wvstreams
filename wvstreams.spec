@@ -1,3 +1,7 @@
+#
+# Conditional build:
+%bcond_without	doc	# don't build documentation
+#
 Summary:	A network programming library written in C++
 Summary(pl):	Biblioteka programowania sieciowego napisana w C++
 Name:		wvstreams
@@ -11,7 +15,7 @@ Patch0:		%{name}-rsapublickey.patch
 URL:		http://open.nit.ca/wvstreams/
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	doxygen
+%{?with_doc:BuildRequires:	doxygen}
 BuildRequires:	libstdc++-devel
 BuildRequires:	openssl-devel >= 0.9.7d
 Obsoletes:	libwvstreams
@@ -75,8 +79,10 @@ cp -f /usr/share/automake/config.sub xplc
 	DEBUG=%{?debug:1}%{!?debug:0} \
 	CXX="%{__cxx}" \
 	CFLAGS="%{rpmcflags} -fPIC -DDEBUG=0 \$(OSDEFINE)"
-	
+
+%if %{with doc}	
 %{__make} doxygen
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -97,7 +103,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
+%if %{with doc}	
 %doc Docs/doxy-html/*
+%endif
 %attr(755,root,root) %{_libdir}/lib*.so
 %{_includedir}/wvstreams
 
