@@ -19,6 +19,7 @@ BuildRequires:	automake
 %{?with_doc:BuildRequires:	doxygen}
 BuildRequires:	libstdc++-devel
 BuildRequires:	openssl-devel >= 0.9.7d
+BuildRequires:	sed >= 4.0
 Obsoletes:	libwvstreams
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -67,13 +68,21 @@ Statyczna wersja biblioteki wvstreams.
 #ugly hack - fix it
 cp include/wvsslhacks.h crypto
 cp include/wvtelephony.h telephony
+sed 's/-O2//' -i xplc/configure.ac *.mk
 
 %build
+cp -f /usr/share/automake/config.sub xplc
+cd xplc
+%{__aclocal}
+%{__autoconf}
+%{__autoheader}
+%configure
+cd ..
+
 # despite .fpic rules the same .o files are used for .a and .so - need -fPIC
 %{__aclocal}
 %{__autoconf}
 %{__autoheader}
-cp -f /usr/share/automake/config.sub xplc
 %configure \
 	--without-vorbis
 
