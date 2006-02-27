@@ -13,13 +13,13 @@ Source0:	http://www.csclub.uwaterloo.ca/~ja2morri/%{name}-%{version}.tar.gz
 # Source0-md5:	ecb4e74ebaa1f45206f5d88eb34c5623
 Patch0:		%{name}-rsapublickey.patch
 Patch1:		%{name}-gcc4.patch
+Patch2:		%{name}-cflags.patch
 URL:		http://open.nit.ca/wvstreams/
 BuildRequires:	autoconf
 BuildRequires:	automake
 %{?with_doc:BuildRequires:	doxygen}
 BuildRequires:	libstdc++-devel
 BuildRequires:	openssl-devel >= 0.9.7d
-BuildRequires:	sed >= 4.0
 Obsoletes:	libwvstreams
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -65,14 +65,14 @@ Statyczna wersja biblioteki wvstreams.
 %setup -q
 #%patch0 -p1
 %patch1 -p1
+%patch2 -p1
 #ugly hack - fix it
 cp include/wvsslhacks.h crypto
 cp include/wvtelephony.h telephony
-sed 's/-O2//' -i xplc/configure.ac *.mk
 
 %build
-cp -f /usr/share/automake/config.sub xplc
 cd xplc
+cp -f /usr/share/automake/config.sub .
 %{__aclocal}
 %{__autoconf}
 %{__autoheader}
