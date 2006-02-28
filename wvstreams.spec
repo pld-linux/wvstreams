@@ -91,7 +91,7 @@ cd ..
 	CXX="%{__cxx}" \
 	CFLAGS="%{rpmcflags} -fPIC -DDEBUG=0 \$(OSDEFINE)"
 
-%if %{with doc}	
+%if %{with doc}
 %{__make} doxygen
 %endif
 
@@ -114,7 +114,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%if %{with doc}	
+%if %{with doc}
 %doc Docs/doxy-html/*
 %endif
 %attr(755,root,root) %{_libdir}/lib*.so
