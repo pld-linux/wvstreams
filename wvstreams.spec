@@ -14,6 +14,7 @@ Source0:	http://www.csclub.uwaterloo.ca/~ja2morri/%{name}-%{version}.tar.gz
 Patch0:		%{name}-rsapublickey.patch
 Patch1:		%{name}-gcc4.patch
 Patch2:		%{name}-cflags.patch
+Patch3:		%{name}-new-ssl.patch
 URL:		http://open.nit.ca/wvstreams/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -66,6 +67,7 @@ Statyczna wersja biblioteki wvstreams.
 #%patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 #ugly hack - fix it
 cp include/wvsslhacks.h crypto
 cp include/wvtelephony.h telephony
