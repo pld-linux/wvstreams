@@ -1,4 +1,3 @@
-diff -ur wvstreams-4.0.2/include/unilistgen.h wvstreams-4.0.2.gcc4/include/unilistgen.h
 --- wvstreams-4.0.2/include/unilistgen.h	2005-03-24 03:01:23.000000000 +0100
 +++ wvstreams-4.0.2.gcc4/include/unilistgen.h	2006-01-18 21:22:04.000000000 +0100
 @@ -31,7 +31,7 @@
@@ -10,7 +9,6 @@ diff -ur wvstreams-4.0.2/include/unilistgen.h wvstreams-4.0.2.gcc4/include/unili
  
      UniConfGenList *l;
      UniConfGenList::Iter i;
-diff -ur wvstreams-4.0.2/include/wvhttppool.h wvstreams-4.0.2.gcc4/include/wvhttppool.h
 --- wvstreams-4.0.2/include/wvhttppool.h	2005-03-24 03:01:23.000000000 +0100
 +++ wvstreams-4.0.2.gcc4/include/wvhttppool.h	2006-01-18 21:22:20.000000000 +0100
 @@ -57,7 +57,7 @@
@@ -22,3 +20,14 @@ diff -ur wvstreams-4.0.2/include/wvhttppool.h wvstreams-4.0.2.gcc4/include/wvhtt
  	: linkname(_linkname), url(_url)
      {}
  };
+--- wvstreams-4.0.2/xplc/include/xplc/IObject.h	2005-03-24 03:01:23.000000000 +0100
++++ wvstreams-4.0.2.gcc4/xplc/include/xplc/IObject.h	2006-07-27 10:56:07.470497750 +0200
+@@ -61,6 +61,8 @@
+ class IObject {
+   UNSTABLE_INTERFACE
+ public:
++  virtual ~IObject() { }
++
+   /**
+    * Indicate you are using this object.  This increases the reference
+    * count of the object by one.  Usually, when the reference count
