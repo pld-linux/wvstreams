@@ -1,0 +1,10 @@
+--- wvstreams-4.0.2/vars.mk.orig	2006-07-27 10:53:47.000000000 +0200
++++ wvstreams-4.0.2/vars.mk	2006-07-27 11:36:00.464159500 +0200
+@@ -168,6 +168,7 @@
+ 	streams/wvfdstream.o \
+ 	utils/wvfork.o \
+ 	utils/wvhash.o \
++	utils/wvhashtable.o \
+ 	utils/wvlinklist.o \
+ 	utils/wvmoniker.o \
+ 	utils/wvscatterhash.o utils/wvsorter.o \
