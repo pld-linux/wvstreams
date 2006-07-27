@@ -1,4 +1,23 @@
 #
+# TODO:
+#   - check and/or package files:
+#
+#   /etc/uniconf.conf
+#   /usr/bin/uni
+#   /usr/lib64/pkgconfig/liboggspeex.pc
+#   /usr/lib64/pkgconfig/liboggvorbis.pc
+#   /usr/lib64/pkgconfig/libuniconf.pc
+#   /usr/lib64/pkgconfig/libwvbase.pc
+#   /usr/lib64/pkgconfig/libwvfft.pc
+#   /usr/lib64/pkgconfig/libwvqt.pc
+#   /usr/lib64/pkgconfig/libwvstreams.pc
+#   /usr/lib64/pkgconfig/libwvutils.pc
+#   /usr/lib64/pkgconfig/wvxplc.pc
+#   /usr/sbin/uniconfd
+#   /usr/share/man/man8/uni.8.gz
+#   /usr/share/man/man8/uniconfd.8.gz
+#   /var/lib/uniconf/uniconfd.ini
+#
 # Conditional build:
 %bcond_without	doc	# don't build documentation
 #
@@ -11,16 +30,15 @@ License:	LGPL
 Group:		Libraries
 Source0:	http://www.csclub.uwaterloo.ca/~ja2morri/%{name}-%{version}.tar.gz
 # Source0-md5:	ecb4e74ebaa1f45206f5d88eb34c5623
-Patch0:		%{name}-rsapublickey.patch
+Patch0:		%{name}-cflags.patch
 Patch1:		%{name}-gcc4.patch
-Patch2:		%{name}-cflags.patch
-Patch3:		%{name}-new-ssl.patch
+Patch2:		%{name}-unresolved_symbols.patch
 URL:		http://open.nit.ca/wvstreams/
 BuildRequires:	autoconf
 BuildRequires:	automake
 %{?with_doc:BuildRequires:	doxygen}
 BuildRequires:	libstdc++-devel
-BuildRequires:	openssl-devel >= 0.9.7d
+BuildRequires:	openssl-devel >= 0.9.7i
 Obsoletes:	libwvstreams
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -64,10 +82,9 @@ Statyczna wersja biblioteki wvstreams.
 
 %prep
 %setup -q
-#%patch0 -p1
+%patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 #ugly hack - fix it
 cp include/wvsslhacks.h crypto
 cp include/wvtelephony.h telephony
