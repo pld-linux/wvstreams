@@ -31,3 +31,14 @@
    /**
     * Indicate you are using this object.  This increases the reference
     * count of the object by one.  Usually, when the reference count
+--- wvstreams-4.0.2/crypto/wvtripledes.cc	2005-03-24 02:01:23.000000000 +0000
++++ wvstreams-4.0.2.gcc4/crypto/wvtripledes.cc	2006-07-27 20:08:31.000000000 +0000
+@@ -102,7 +102,7 @@
+ 	// ECB works 64bits at a time
+ 	while (len >= 8)
+ 	{
+-#if OPENSSL_VERSION_NUMBER >= 0x0090705FL
++#if (OPENSSL_VERSION_NUMBER >= 0x0090705FL) && (OPENSSL_VERSION_NUMBER < 0x0090708FL)
+ 	    DES_ecb3_encrypt(data, crypt,
+ 			     &deskey1, &deskey2, &deskey3,
+ 			     mode == ECBEncrypt ? DES_ENCRYPT : DES_DECRYPT);
