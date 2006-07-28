@@ -42,3 +42,31 @@
  	    DES_ecb3_encrypt(data, crypt,
  			     &deskey1, &deskey2, &deskey3,
  			     mode == ECBEncrypt ? DES_ENCRYPT : DES_DECRYPT);
+--- wvstreams-4.0.2/crypto/wvx509.cc	2006-07-28 12:50:53.000000000 +0000
++++ wvstreams-4.0.2.gcc4/crypto/wvx509.cc	2006-07-28 12:50:14.000000000 +0000
+@@ -1162,6 +1162,17 @@
+ 		else
+ 		{
+ 		    void *ext_data = NULL;
++#if OPENSSL_VERSION_NUMBER >= 0x0090708FL
++		    if (method->it) 
++			ext_data = ASN1_item_d2i(NULL, 
++				(const unsigned char**) &ext->value->data, 
++						ext->value->length, 
++						ASN1_ITEM_ptr(method->it));
++		    else
++			ext_data = method->d2i(NULL,
++				(const unsigned char**) &ext->value->data, 
++					      ext->value->length);
++#else
+ 		    if (method->it) 
+ 			ext_data = ASN1_item_d2i(NULL, &ext->value->data, 
+ 						ext->value->length, 
+@@ -1169,6 +1180,7 @@
+ 		    else
+ 			ext_data = method->d2i(NULL, &ext->value->data, 
+ 					      ext->value->length);
++#endif
+ 		    
+ 		    if (method->i2s)
+ 		    {
