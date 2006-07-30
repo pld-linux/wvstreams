@@ -38,7 +38,7 @@
  	while (len >= 8)
  	{
 -#if OPENSSL_VERSION_NUMBER >= 0x0090705FL
-+#if (OPENSSL_VERSION_NUMBER >= 0x0090705FL) && (OPENSSL_VERSION_NUMBER < 0x0090708FL)
++#if (OPENSSL_VERSION_NUMBER >= 0x0090705FL) && (OPENSSL_VERSION_NUMBER < 0x0090800FL)
  	    DES_ecb3_encrypt(data, crypt,
  			     &deskey1, &deskey2, &deskey3,
  			     mode == ECBEncrypt ? DES_ENCRYPT : DES_DECRYPT);
@@ -48,7 +48,7 @@
  		else
  		{
  		    void *ext_data = NULL;
-+#if OPENSSL_VERSION_NUMBER >= 0x0090708FL
++#if OPENSSL_VERSION_NUMBER >= 0x0090800FL
 +		    if (method->it) 
 +			ext_data = ASN1_item_d2i(NULL, 
 +				(const unsigned char**) &ext->value->data, 
