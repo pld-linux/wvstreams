@@ -1,0 +1,21 @@
+--- wvstreams-4.0.2/vars.mk~	2006-07-30 23:51:49.000000000 +0000
++++ wvstreams-4.0.2/vars.mk	2006-07-31 00:11:36.000000000 +0000
+@@ -139,15 +139,15 @@
+ libwvbase.so: LIBS+=-lxplc-cxx
+ 
+ ifneq ("$(with_fam)", "no")
+-  libwvstreams.so: -lfam
++  libwvstreams.so: LIBS+=-lfam
+ endif
+ 
+ ifneq ("$(with_openslp)", "no")
+-  libwvstreams.so: -lslp
++  libwvstreams.so: LIBS+=-lslp
+ endif
+ 
+ ifneq ("$(with_pam)", "no")
+-  libwvstreams.so: -lpam
++  libwvstreams.so: LIBS+=-lpam
+ endif
+ 
+ LDLIBS := -lgcc $(LDLIBS) \
