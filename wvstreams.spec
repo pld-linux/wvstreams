@@ -20,6 +20,7 @@
 #
 # Conditional build:
 %bcond_without	doc	# don't build documentation
+%bcond_without	slp	# build without openslp
 #
 Summary:	A network programming library written in C++
 Summary(pl):	Biblioteka programowania sieciowego napisana w C++
@@ -39,6 +40,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 %{?with_doc:BuildRequires:	doxygen}
 BuildRequires:	libstdc++-devel
+%{?with_slp:BuildRequires:	openslp-devel}
 BuildRequires:	openssl-devel >= 0.9.7i
 Obsoletes:	libwvstreams
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -105,6 +107,7 @@ cd ..
 %{__autoconf}
 %{__autoheader}
 %configure \
+	--with%{!?with_slp:out}-openslp \
 	--without-vorbis
 
 %{__make} -j1 \
