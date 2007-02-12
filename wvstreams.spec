@@ -23,7 +23,7 @@
 %bcond_without	slp	# build without openslp
 #
 Summary:	A network programming library written in C++
-Summary(pl.UTF-8):   Biblioteka programowania sieciowego napisana w C++
+Summary(pl.UTF-8):	Biblioteka programowania sieciowego napisana w C++
 Name:		wvstreams
 Version:	4.0.2
 Release:	3
@@ -55,7 +55,7 @@ do tworzenia aplikacji sieciowych.
 
 %package devel
 Summary:	Development files for WvStreams
-Summary(pl.UTF-8):   Pliki developerskie dla WvStreams
+Summary(pl.UTF-8):	Pliki developerskie dla WvStreams
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	libstdc++-devel
@@ -73,7 +73,7 @@ do tworzenia aplikacji używających WvStreams.
 
 %package static
 Summary:	Static wvstreams library
-Summary(pl.UTF-8):   Statyczna biblioteka wvstreams
+Summary(pl.UTF-8):	Statyczna biblioteka wvstreams
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
