@@ -23,7 +23,7 @@
 %bcond_without	slp	# build without openslp
 #
 Summary:	A network programming library written in C++
-Summary(pl):	Biblioteka programowania sieciowego napisana w C++
+Summary(pl.UTF-8):   Biblioteka programowania sieciowego napisana w C++
 Name:		wvstreams
 Version:	4.0.2
 Release:	3
@@ -49,13 +49,13 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 WvStreams aims to be an efficient, secure, and easy-to-use library for
 doing network applications development.
 
-%description -l pl
-WvStreams próbuje byæ wydajn±, bezpieczn± i ³atw± w u¿yciu bibliotek±
+%description -l pl.UTF-8
+WvStreams prÃ³buje byÄ‡ wydajnÄ…, bezpiecznÄ… i Å‚atwÄ… w uÅ¼yciu bibliotekÄ…
 do tworzenia aplikacji sieciowych.
 
 %package devel
 Summary:	Development files for WvStreams
-Summary(pl):	Pliki developerskie dla WvStreams
+Summary(pl.UTF-8):   Pliki developerskie dla WvStreams
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	libstdc++-devel
@@ -66,21 +66,21 @@ WvStreams aims to be an efficient, secure, and easy-to-use library for
 doing network applications development. This package contains the
 files needed for developing applications which use WvStreams.
 
-%description devel -l pl
-WvStreams próbuje byæ wydajn±, bezpieczn± i ³atw± w u¿yciu bibliotek±
-do tworzenia aplikacji sieciowych. Pakiet ten zawiera pliki niezbêdne
-do tworzenia aplikacji u¿ywaj±cych WvStreams.
+%description devel -l pl.UTF-8
+WvStreams prÃ³buje byÄ‡ wydajnÄ…, bezpiecznÄ… i Å‚atwÄ… w uÅ¼yciu bibliotekÄ…
+do tworzenia aplikacji sieciowych. Pakiet ten zawiera pliki niezbÄ™dne
+do tworzenia aplikacji uÅ¼ywajÄ…cych WvStreams.
 
 %package static
 Summary:	Static wvstreams library
-Summary(pl):	Statyczna biblioteka wvstreams
+Summary(pl.UTF-8):   Statyczna biblioteka wvstreams
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 Static wvstreams library.
 
-%description static -l pl
+%description static -l pl.UTF-8
 Statyczna wersja biblioteki wvstreams.
 
 %prep
