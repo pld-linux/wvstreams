@@ -1,0 +1,11 @@
+--- wvstreams-4.5/uniconf/uniconf.cc.orig	2008-12-27 01:37:56.000000000 +0000
++++ wvstreams-4.5/uniconf/uniconf.cc	2008-12-27 01:38:05.000000000 +0000
+@@ -9,7 +9,7 @@
+ #include "uniconfgen.h"
+ #include "wvstream.h"
+ #include <assert.h>
+-
++#include <algorithm>
+ 
+ UniConf::UniConf(UniConfRoot *root, const UniConfKey &fullkey)
+     : xroot(root), xfullkey(fullkey)
