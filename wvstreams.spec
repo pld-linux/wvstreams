@@ -1,22 +1,17 @@
 #
 # TODO:
+#   - review patches: vstreams-cflags.patch, wvstreams-mk.patch
 #   - check and/or package files:
+#    /etc/uniconf.conf
+#    /usr/bin/uni
+#    /usr/bin/wsd
+#    /usr/bin/wvtestrunner.pl
+#    /usr/lib/valgrind/wvstreams.supp
+#    /usr/sbin/uniconfd
+#    /usr/share/man/man8/uni.8.gz
+#    /usr/share/man/man8/uniconfd.8.gz
+#    /var/lib/uniconf/uniconfd.ini
 #
-#   /etc/uniconf.conf
-#   /usr/bin/uni
-#   /usr/lib64/pkgconfig/liboggspeex.pc
-#   /usr/lib64/pkgconfig/liboggvorbis.pc
-#   /usr/lib64/pkgconfig/libuniconf.pc
-#   /usr/lib64/pkgconfig/libwvbase.pc
-#   /usr/lib64/pkgconfig/libwvfft.pc
-#   /usr/lib64/pkgconfig/libwvqt.pc
-#   /usr/lib64/pkgconfig/libwvstreams.pc
-#   /usr/lib64/pkgconfig/libwvutils.pc
-#   /usr/lib64/pkgconfig/wvxplc.pc
-#   /usr/sbin/uniconfd
-#   /usr/share/man/man8/uni.8.gz
-#   /usr/share/man/man8/uniconfd.8.gz
-#   /var/lib/uniconf/uniconfd.ini
 #
 # Conditional build:
 %bcond_without	doc	# don't build documentation
@@ -25,17 +20,16 @@
 Summary:	A network programming library written in C++
 Summary(pl.UTF-8):	Biblioteka programowania sieciowego napisana w C++
 Name:		wvstreams
-Version:	4.0.2
-Release:	4
+Version:	4.5.1
+Release:	1
 License:	LGPL
 Group:		Libraries
-Source0:	http://www.csclub.uwaterloo.ca/~ja2morri/%{name}-%{version}.tar.gz
-# Source0-md5:	ecb4e74ebaa1f45206f5d88eb34c5623
-Patch0:		%{name}-cflags.patch
-Patch1:		%{name}-gcc4.patch
-Patch2:		%{name}-unresolved_symbols.patch
-Patch3:		%{name}-mk.patch
-URL:		http://open.nit.ca/wvstreams/
+Source0:	http://wvstreams.googlecode.com/files/%{name}-%{version}.tar.gz
+# Source0-md5:	d092f6a80d38d361cb7a6d54d7699678
+Patch0:		%{name}-sort.patch
+Patch1:		%{name}-cflags.patch
+Patch2:		%{name}-mk.patch
+URL:		http://alumnit.ca/wiki/index.php?page=WvStreams
 BuildRequires:	autoconf
 BuildRequires:	automake
 %{?with_doc:BuildRequires:	doxygen}
@@ -86,26 +80,8 @@ Statyczna wersja biblioteki wvstreams.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-#ugly hack - fix it
-cp include/wvsslhacks.h crypto
-cp include/wvtelephony.h telephony
 
 %build
-cd xplc
-cp -f /usr/share/automake/config.sub .
-%{__aclocal}
-%{__autoconf}
-%{__autoheader}
-%configure
-cd ..
-
-# despite .fpic rules the same .o files are used for .a and .so - need -fPIC
-%{__aclocal}
-%{__autoconf}
-%{__autoheader}
 %configure \
 	--with%{!?with_slp:out}-openslp \
 	--without-vorbis
@@ -139,11 +115,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%if %{with doc}
-%doc Docs/doxy-html/*
-%endif
+#%if %{with doc}
+#%doc Docs/doxy-html/*
+#%endif
 %attr(755,root,root) %{_libdir}/lib*.so
 %{_includedir}/wvstreams
+%{_pkgconfigdir}/*.pc
 
 %files static
 %defattr(644,root,root,755)
