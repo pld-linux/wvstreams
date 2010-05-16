@@ -33,10 +33,16 @@ Patch3:		%{name}-openssl.patch
 URL:		http://alumnit.ca/wiki/index.php?page=WvStreams
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	boost-devel
+BuildRequires:	dbus-devel >= 1.2.14
 %{?with_doc:BuildRequires:	doxygen}
 BuildRequires:	libstdc++-devel
 %{?with_slp:BuildRequires:	openslp-devel}
 BuildRequires:	openssl-devel >= 0.9.7i
+BuildRequires:	pam-devel
+BuildRequires:	pkgconfig
+BuildRequires:	readline-devel
+BuildRequires:	tcl-devel
 Obsoletes:	libwvstreams
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
