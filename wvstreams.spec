@@ -30,6 +30,7 @@ Patch0:		%{name}-sort.patch
 Patch1:		%{name}-cflags.patch
 Patch2:		%{name}-mk.patch
 Patch3:		%{name}-openssl.patch
+Patch4:		%{name}-includes.patch
 URL:		http://alumnit.ca/wiki/index.php?page=WvStreams
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -87,7 +88,10 @@ Statyczna wersja biblioteki wvstreams.
 %prep
 %setup -q
 %patch0 -p1
+#%patch1 -p1
+#%patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 %configure \
