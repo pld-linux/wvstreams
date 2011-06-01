@@ -1,6 +1,6 @@
 #
 # TODO:
-#   - review patches: vstreams-cflags.patch, wvstreams-mk.patch
+#   - review patches: wvstreams-cflags.patch, wvstreams-mk.patch
 #   - check and/or package files:
 #    /etc/uniconf.conf
 #    /usr/bin/uni
@@ -21,7 +21,7 @@ Summary:	A network programming library written in C++
 Summary(pl.UTF-8):	Biblioteka programowania sieciowego napisana w C++
 Name:		wvstreams
 Version:	4.6.1
-Release:	2
+Release:	3
 License:	LGPL
 Group:		Libraries
 Source0:	http://wvstreams.googlecode.com/files/%{name}-%{version}.tar.gz
@@ -88,8 +88,8 @@ Statyczna wersja biblioteki wvstreams.
 %prep
 %setup -q
 %patch0 -p1
-#%patch1 -p1
-#%patch2 -p1
+#%%patch1 -p1
+#%%patch2 -p1
 %patch3 -p1
 %patch4 -p1
 
