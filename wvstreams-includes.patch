@@ -21,3 +21,14 @@
  
  WvAtomicFile::WvAtomicFile(WvStringParm filename, int flags, mode_t create_mode)
      : tmp_file(WvString::null)
+--- wvstreams-4.6.1/utils/wvuid.cc~	2008-07-14 21:11:35.000000000 +0200
++++ wvstreams-4.6.1/utils/wvuid.cc	2013-12-06 20:12:29.158990581 +0100
+@@ -6,6 +6,8 @@
+  */ 
+ #include "wvautoconf.h"
+ #include "wvuid.h"
++#include <unistd.h>
++#include <sys/types.h>
+ 
+ #if WIN32
+ 

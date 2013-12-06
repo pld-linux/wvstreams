@@ -21,7 +21,7 @@ Summary:	A network programming library written in C++
 Summary(pl.UTF-8):	Biblioteka programowania sieciowego napisana w C++
 Name:		wvstreams
 Version:	4.6.1
-Release:	3
+Release:	4
 License:	LGPL
 Group:		Libraries
 Source0:	http://wvstreams.googlecode.com/files/%{name}-%{version}.tar.gz
