@@ -21,7 +21,7 @@ Summary:	A network programming library written in C++
 Summary(pl.UTF-8):	Biblioteka programowania sieciowego napisana w C++
 Name:		wvstreams
 Version:	4.6.1
-Release:	4
+Release:	5
 License:	LGPL
 Group:		Libraries
 Source0:	http://wvstreams.googlecode.com/files/%{name}-%{version}.tar.gz
@@ -31,6 +31,11 @@ Patch1:		%{name}-cflags.patch
 Patch2:		%{name}-mk.patch
 Patch3:		%{name}-openssl.patch
 Patch4:		%{name}-includes.patch
+Patch5:		%{name}-4.2.2-multilib.patch
+Patch6:		%{name}-4.5-noxplctarget.patch
+Patch7:		%{name}-4.6.1-make.patch
+Patch8:		%{name}-4.6.1-gcc47.patch
+Patch9:		%{name}-4.6.1-magic.patch
 URL:		http://alumnit.ca/wiki/index.php?page=WvStreams
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -92,6 +97,11 @@ Statyczna wersja biblioteki wvstreams.
 #%%patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
+%patch6 -p1
+%patch7 -p1
+%patch8 -p1
+%patch9 -p1
 
 %build
 %configure \
@@ -102,7 +112,9 @@ Statyczna wersja biblioteki wvstreams.
 	VPATH=%{_libdir} \
 	DEBUG=%{?debug:1}%{!?debug:0} \
 	CXX="%{__cxx}" \
-	CFLAGS="%{rpmcflags} -fPIC -DDEBUG=0 \$(OSDEFINE)"
+	VERBOSE=1 \
+	CXXOPTS="%{rpmcxxflags} -fPIC -fpermissive -fno-strict-aliasing -fno-tree-dce -fno-optimize-sibling-calls"
+	COPTS="%{rpmcflags} -fPIC -fPIC -fno-strict-aliasing"
 
 %if %{with doc}
 %{__make} doxygen
