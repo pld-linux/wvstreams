@@ -1,6 +1,5 @@
 #
 # TODO:
-#   - review patches: wvstreams-cflags.patch, wvstreams-mk.patch
 #   - check and/or package files:
 #    /etc/uniconf.conf
 #    /usr/bin/uni
@@ -14,8 +13,8 @@
 #
 #
 # Conditional build:
-%bcond_without	doc	# don't build documentation
-%bcond_without	slp	# build without openslp
+%bcond_without	apidocs	# Doxygen documentation
+%bcond_without	slp	# OpenSLP support
 #
 Summary:	A network programming library written in C++
 Summary(pl.UTF-8):	Biblioteka programowania sieciowego napisana w C++
@@ -24,11 +23,10 @@ Version:	4.6.1
 Release:	5
 License:	LGPL
 Group:		Libraries
+#Source0Download: http://code.google.com/p/wvstreams/downloads/list
 Source0:	http://wvstreams.googlecode.com/files/%{name}-%{version}.tar.gz
 # Source0-md5:	2760dac31a43d452a19a3147bfde571c
 Patch0:		%{name}-sort.patch
-Patch1:		%{name}-cflags.patch
-Patch2:		%{name}-mk.patch
 Patch3:		%{name}-openssl.patch
 Patch4:		%{name}-includes.patch
 Patch5:		%{name}-4.2.2-multilib.patch
@@ -41,7 +39,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	boost-devel
 BuildRequires:	dbus-devel >= 1.2.14
-%{?with_doc:BuildRequires:	doxygen}
+%{?with_apidocs:BuildRequires:	doxygen}
 BuildRequires:	libstdc++-devel
 %{?with_slp:BuildRequires:	openslp-devel}
 BuildRequires:	openssl-devel >= 0.9.7i
@@ -49,6 +47,7 @@ BuildRequires:	pam-devel
 BuildRequires:	pkgconfig
 BuildRequires:	readline-devel
 BuildRequires:	tcl-devel
+BuildRequires:	zlib-devel
 Obsoletes:	libwvstreams
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -76,25 +75,34 @@ files needed for developing applications which use WvStreams.
 %description devel -l pl.UTF-8
 WvStreams próbuje być wydajną, bezpieczną i łatwą w użyciu biblioteką
 do tworzenia aplikacji sieciowych. Pakiet ten zawiera pliki niezbędne
-do tworzenia aplikacji używających WvStreams.
+do kompilowania oprogramowania używającego WvStreams.
 
 %package static
-Summary:	Static wvstreams library
-Summary(pl.UTF-8):	Statyczna biblioteka wvstreams
+Summary:	Static WvStreams library
+Summary(pl.UTF-8):	Statyczna biblioteka WvStreams
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
-Static wvstreams library.
+Static WvStreams library.
 
 %description static -l pl.UTF-8
-Statyczna wersja biblioteki wvstreams.
+Statyczna wersja biblioteki WvStreams.
+
+%package apidocs
+Summary:	API documentation for WvStreams libraries
+Summary(pl.UTF-8):	Dokumentacja API bibliotek WvStreams
+Group:		Documentation
+
+%description apidocs
+API documentation for WvStreams libraries.
+
+%description apidocs -l pl.UTF-8
+Dokumentacja API bibliotek WvStreams.
 
 %prep
 %setup -q
 %patch0 -p1
-#%%patch1 -p1
-#%%patch2 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
@@ -104,8 +112,10 @@ Statyczna wersja biblioteki wvstreams.
 %patch9 -p1
 
 %build
+# disable-optimization disables -O2 override
 %configure \
-	--with%{!?with_slp:out}-openslp \
+	--disable-optimization \
+	--with-openslp%{!?with_slp:=no} \
 	--without-vorbis
 
 %{__make} -j1 \
@@ -116,7 +126,7 @@ Statyczna wersja biblioteki wvstreams.
 	CXXOPTS="%{rpmcxxflags} -fPIC -fpermissive -fno-strict-aliasing -fno-tree-dce -fno-optimize-sibling-calls"
 	COPTS="%{rpmcflags} -fPIC -fPIC -fno-strict-aliasing"
 
-%if %{with doc}
+%if %{with apidocs}
 %{__make} doxygen
 %endif
 
@@ -135,17 +145,35 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc README ChangeLog
-%attr(755,root,root) %{_libdir}/lib*.so.*.*
+%attr(755,root,root) %{_libdir}/libuniconf.so.*.*
+%attr(755,root,root) %{_libdir}/libwvbase.so.*.*
+%attr(755,root,root) %{_libdir}/libwvdbus.so.*.*
+%attr(755,root,root) %{_libdir}/libwvstreams.so.*.*
+%attr(755,root,root) %{_libdir}/libwvutils.so.*.*
 
 %files devel
 %defattr(644,root,root,755)
-#%if %{with doc}
-#%doc Docs/doxy-html/*
-#%endif
-%attr(755,root,root) %{_libdir}/lib*.so
+%attr(755,root,root) %{_libdir}/libuniconf.so
+%attr(755,root,root) %{_libdir}/libwvbase.so
+%attr(755,root,root) %{_libdir}/libwvdbus.so
+%attr(755,root,root) %{_libdir}/libwvstreams.so
+%attr(755,root,root) %{_libdir}/libwvutils.so
+%{_libdir}/libwvtest.a
 %{_includedir}/wvstreams
-%{_pkgconfigdir}/*.pc
+%{_pkgconfigdir}/libuniconf.pc
+%{_pkgconfigdir}/libwvbase.pc
+%{_pkgconfigdir}/libwvdbus.pc
+#%{_pkgconfigdir}/libwvqt.pc
+%{_pkgconfigdir}/libwvstreams.pc
+%{_pkgconfigdir}/libwvtest.pc
+%{_pkgconfigdir}/libwvutils.pc
 
 %files static
 %defattr(644,root,root,755)
-%{_libdir}/lib*.a
+%{_libdir}/libwvstatic.a
+
+%if %{with apidocs}
+%files apidocs
+%defattr(644,root,root,755)
+%doc Docs/doxy-html/*
+%endif
