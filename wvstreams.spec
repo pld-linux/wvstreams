@@ -1,17 +1,4 @@
 #
-# TODO:
-#   - check and/or package files:
-#    /etc/uniconf.conf
-#    /usr/bin/uni
-#    /usr/bin/wsd
-#    /usr/bin/wvtestrunner.pl
-#    /usr/lib/valgrind/wvstreams.supp
-#    /usr/sbin/uniconfd
-#    /usr/share/man/man8/uni.8.gz
-#    /usr/share/man/man8/uniconfd.8.gz
-#    /var/lib/uniconf/uniconfd.ini
-#
-#
 # Conditional build:
 %bcond_without	apidocs	# Doxygen documentation
 %bcond_without	slp	# OpenSLP support
@@ -100,6 +87,48 @@ API documentation for WvStreams libraries.
 %description apidocs -l pl.UTF-8
 Dokumentacja API bibliotek WvStreams.
 
+%package uniconfd
+Summary:	Daemon for the UniConf configuration system
+Summary(pl.UTF-8):	Demon dla systemu konfiguracji UniConf
+Group:		Daemons
+Requires:	%{name} = %{version}-%{release}
+
+%description uniconfd
+UniConf is the One True Configuration system that includes all the
+others because it has plugin backends and frontends. Or, less
+grandiosely, it's a lightweight, distributed, cacheable tree of
+strings.
+
+uniconfd is necessary when you have more than one application, or
+multiple instances of an application, sharing one configuration.
+UniConf-enabled applications contact uniconfd which provides
+notifications when any of their watched keys change.
+
+%description uniconfd -l pl.UTF-8
+UniConf to system Jedynie Słusznej Konfiguracji zawierający
+wszystkie inne, ponieważ ma wtyczki backendowe i frontendowe.
+Mniej górnolotnie mówiąc, jest to lekkie, rozproszone, cache'owalne
+drzewo łańcuchów znaków.
+
+uniconfd jest potrzebny w przypadku korzystania z jednej konfiguracji
+przez więcej niż jedną aplikację lub wiele instancji aplikacji. Wtedy
+aplikacje korzystające z UniConfa kontaktują się z uniconfd, który
+zapewnia powiadomienia w przypadku zmiany dowolnego z obserwowanych
+kluczy.
+
+%package -n valgrind-wvstreams
+Summary:	WvStreams support for Valgrind
+Summary(pl.UTF-8):	Obsługa WvStreams dla Valgrinda
+Group:		Development/Libraries
+Requires:	%{name} = %{version}-%{release}
+Requires:	valgrind
+
+%description -n valgrind-wvstreams
+WvStreams support for Valgrind.
+
+%description -n valgrind-wvstreams -l pl.UTF-8
+Obsługa WvStreams dla Valgrinda.
+
 %prep
 %setup -q
 %patch0 -p1
@@ -145,14 +174,20 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc README ChangeLog
+%attr(755,root,root) %{_bindir}/uni
+%attr(755,root,root) %{_bindir}/wsd
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/uniconf.conf
 %attr(755,root,root) %{_libdir}/libuniconf.so.*.*
 %attr(755,root,root) %{_libdir}/libwvbase.so.*.*
 %attr(755,root,root) %{_libdir}/libwvdbus.so.*.*
 %attr(755,root,root) %{_libdir}/libwvstreams.so.*.*
 %attr(755,root,root) %{_libdir}/libwvutils.so.*.*
+%{_mandir}/man8/uni.8*
+%dir /var/lib/uniconf
 
 %files devel
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/wvtestrun
 %attr(755,root,root) %{_libdir}/libuniconf.so
 %attr(755,root,root) %{_libdir}/libwvbase.so
 %attr(755,root,root) %{_libdir}/libwvdbus.so
@@ -177,3 +212,13 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc Docs/doxy-html/*
 %endif
+
+%files uniconfd
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_sbindir}/uniconfd
+%config(noreplace) %verify(not md5 mtime size) /var/lib/uniconf/uniconfd.ini
+%{_mandir}/man8/uniconfd.8*
+
+%files -n valgrind-wvstreams
+%defattr(644,root,root,755)
+%{_libdir}/valgrind/wvstreams.supp
