@@ -1,0 +1,16 @@
+--- wvstreams-4.6.1/configure.ac.orig	2009-09-29 18:12:39.000000000 +0200
++++ wvstreams-4.6.1/configure.ac	2014-12-24 13:57:47.088332025 +0100
+@@ -480,11 +480,11 @@
+     WV_APPEND(CPPFLAGS, -I/usr/include/tcl8.3)
+     AC_CHECK_HEADERS(tcl.h,, [with_tcl=no])
+     LIBS_save="$LIBS"
+-    AC_CHECK_LIB(tcl8.3, TclInterpInit,, [with_tcl=no])
++    AC_CHECK_LIB(tcl, TclInterpInit,, [with_tcl=no])
+     LIBS="$LIBS_save"
+     if test "$with_tcl" != "no"; then
+         CPPFLAGS="$CPPFLAGS_save"
+-        LIBS_TCL=-ltcl8.3
++        LIBS_TCL=-ltcl
+     fi
+ fi
+ 

@@ -1,7 +1,7 @@
 #
 # Conditional build:
 %bcond_without	apidocs	# Doxygen documentation
-%bcond_without	slp	# OpenSLP support
+%bcond_without	qt	# wvstreams-qt library
 #
 Summary:	A network programming library written in C++
 Summary(pl.UTF-8):	Biblioteka programowania sieciowego napisana w C++
@@ -14,6 +14,8 @@ Group:		Libraries
 Source0:	http://wvstreams.googlecode.com/files/%{name}-%{version}.tar.gz
 # Source0-md5:	2760dac31a43d452a19a3147bfde571c
 Patch0:		%{name}-sort.patch
+Patch1:		%{name}-tcl.patch
+Patch2:		%{name}-qt.patch
 Patch3:		%{name}-openssl.patch
 Patch4:		%{name}-includes.patch
 Patch5:		%{name}-4.2.2-multilib.patch
@@ -22,16 +24,15 @@ Patch7:		%{name}-4.6.1-make.patch
 Patch8:		%{name}-4.6.1-gcc47.patch
 Patch9:		%{name}-4.6.1-magic.patch
 URL:		http://alumnit.ca/wiki/index.php?page=WvStreams
-BuildRequires:	autoconf
-BuildRequires:	automake
+BuildRequires:	autoconf >= 2.50
 BuildRequires:	boost-devel
 BuildRequires:	dbus-devel >= 1.2.14
 %{?with_apidocs:BuildRequires:	doxygen}
 BuildRequires:	libstdc++-devel
-%{?with_slp:BuildRequires:	openslp-devel}
 BuildRequires:	openssl-devel >= 0.9.7i
 BuildRequires:	pam-devel
 BuildRequires:	pkgconfig
+%{?with_qt:BuildRequires:	qt-devel >= 3}
 BuildRequires:	readline-devel
 BuildRequires:	tcl-devel
 BuildRequires:	zlib-devel
@@ -75,6 +76,32 @@ Static WvStreams library.
 
 %description static -l pl.UTF-8
 Statyczna wersja biblioteki WvStreams.
+
+%package qt
+Summary:	WvStreams interface to Qt 3 library
+Summary(pl.UTF-8):	Interfejs WvStreams do biblioteki Qt 3
+Group:		X11/Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description qt
+WvStreams interface to Qt 3 library.
+
+%description qt -l pl.UTF-8
+Interfejs WvStreams do biblioteki Qt 3.
+
+%package qt-devel
+Summary:	WvStreams interface to Qt 3 library - development files
+Summary(pl.UTF-8):	Interfejs WvStreams do biblioteki Qt 3 - pliki programistyczne
+Group:		X11/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+Requires:	%{name}-qt = %{version}-%{release}
+Requires:	qt-devel >= 3
+
+%description qt-devel
+WvStreams interface to Qt 3 library - development files.
+
+%description qt-devel -l pl.UTF-8
+Interfejs WvStreams do biblioteki Qt 3 - pliki programistyczne.
 
 %package apidocs
 Summary:	API documentation for WvStreams libraries
@@ -132,6 +159,8 @@ Obsługa WvStreams dla Valgrinda.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
@@ -141,11 +170,11 @@ Obsługa WvStreams dla Valgrinda.
 %patch9 -p1
 
 %build
+%{__autoconf}
 # disable-optimization disables -O2 override
 %configure \
 	--disable-optimization \
-	--with-openslp%{!?with_slp:=no} \
-	--without-vorbis
+	%{!?with_qt:--without-qt}
 
 %{__make} -j1 \
 	VPATH=%{_libdir} \
@@ -195,10 +224,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libwvutils.so
 %{_libdir}/libwvtest.a
 %{_includedir}/wvstreams
+%exclude %{_includedir}/wvstreams/wvqthook.h
+%exclude %{_includedir}/wvstreams/wvqtstreamclone.h
 %{_pkgconfigdir}/libuniconf.pc
 %{_pkgconfigdir}/libwvbase.pc
 %{_pkgconfigdir}/libwvdbus.pc
-#%{_pkgconfigdir}/libwvqt.pc
 %{_pkgconfigdir}/libwvstreams.pc
 %{_pkgconfigdir}/libwvtest.pc
 %{_pkgconfigdir}/libwvutils.pc
@@ -206,6 +236,19 @@ rm -rf $RPM_BUILD_ROOT
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libwvstatic.a
+
+%if %{with qt}
+%files qt
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libwvqt.so.*.*
+
+%files qt-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libwvqt.so
+%{_includedir}/wvstreams/wvqthook.h
+%{_includedir}/wvstreams/wvqtstreamclone.h
+%{_pkgconfigdir}/libwvqt.pc
+%endif
 
 %if %{with apidocs}
 %files apidocs

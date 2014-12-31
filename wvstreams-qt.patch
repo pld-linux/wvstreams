@@ -1,0 +1,44 @@
+--- wvstreams-4.6.1/configure.ac.orig	2009-09-29 18:12:39.000000000 +0200
++++ wvstreams-4.6.1/configure.ac	2014-12-31 13:45:44.259648015 +0100
+@@ -496,11 +496,22 @@
+         CPPFLAGS_save="$CPPFLAGS"
+         LDFLAGS_save="$LDFLAGS"
+         LIBS_save="$LIBS"
+-        for wv_qtdir in $with_qt $QTDIR $QT_SEARCH_PATH $(pkg-config --variable=prefix qt-mt); do
++        for wv_qtdir in $with_qt _PKGCONFIG_ $QTDIR $QT_SEARCH_PATH ; do
++            if test "$wv_qtdir" = "_PKGCONFIG_"; then
++                qt_CPPFLAGS="$(pkg-config --cflags qt-mt)"
++                qt_LIBS="$(pkg-config --libs qt-mt)"
++		wv_qtdir="$(pkg-config --variable=prefix qt-mt)"
++            else
+             eval wv_qtdir="$wv_qtdir"
+-            CPPFLAGS="$CPPFLAGS_save -I$wv_qtdir/include -I$wv_qtdir/include/qt3"
+-            LDFLAGS="$LDFLAGS_save -L$wv_qtdir/lib"
+-            LIBS="$LIBS_save -lqt-mt"
++	    qt_CPPFLAGS="-I$wv_qtdir/include -I$wv_qtdir/include/qt3"
++                if test "$wv_qtdir" != "/usr" ; then
++	            qt_LIBS="-L$wv_qtdir/lib -lqt-mt"
++                else
++	            qt_LIBS="-lqt-mt"
++                fi
++	    fi
++            CPPFLAGS="$CPPFLAGS_save $qt_CPPFLAGS"
++            LIBS="$LIBS_save $qt_LIBS"
+             AC_TRY_LINK([#include <qstring.h>],
+                         [QString x("hello"); return 0; ],
+                         [wv_cv_with_qt=$wv_qtdir; break])
+@@ -511,12 +522,8 @@
+     ])
+     with_qt=$wv_cv_with_qt
+     if test "$with_qt" != no; then
+-        WV_APPEND(CPPFLAGS, -I$with_qt/include -I$with_qt/include/qt3)
+-        if test "$wv_qtdir" != "/usr" ; then
+-                # never explicitly include /usr/lib
+-	        WV_APPEND(LDFLAGS, -L$with_qt/lib)
+-	fi
+-        WV_APPEND(LIBS_QT, -lqt-mt)
++        WV_APPEND(CPPFLAGS, $qt_CPPFLAGS)
++        WV_APPEND(LIBS_QT, $qt_LIBS)
+     fi
+     AC_PATH_PROG(MOC, moc, [moc not found], $with_qt/bin)
+ fi
