@@ -2,12 +2,12 @@
 # Conditional build:
 %bcond_without	apidocs	# Doxygen documentation
 %bcond_without	qt	# wvstreams-qt library
-#
+
 Summary:	A network programming library written in C++
 Summary(pl.UTF-8):	Biblioteka programowania sieciowego napisana w C++
 Name:		wvstreams
 Version:	4.6.1
-Release:	6
+Release:	7
 License:	LGPL v2
 Group:		Libraries
 #Source0Download: http://code.google.com/p/wvstreams/downloads/list
@@ -107,6 +107,9 @@ Interfejs WvStreams do biblioteki Qt 3 - pliki programistyczne.
 Summary:	API documentation for WvStreams libraries
 Summary(pl.UTF-8):	Dokumentacja API bibliotek WvStreams
 Group:		Documentation
+%if "%{_rpmversion}" >= "5"
+BuildArch:	noarch
+%endif
 
 %description apidocs
 API documentation for WvStreams libraries.
