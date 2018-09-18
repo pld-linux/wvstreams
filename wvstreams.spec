@@ -7,7 +7,7 @@ Summary:	A network programming library written in C++
 Summary(pl.UTF-8):	Biblioteka programowania sieciowego napisana w C++
 Name:		wvstreams
 Version:	4.6.1
-Release:	9
+Release:	10
 License:	LGPL v2
 Group:		Libraries
 #Source0Download: http://code.google.com/p/wvstreams/downloads/list
@@ -23,6 +23,7 @@ Patch6:		%{name}-4.5-noxplctarget.patch
 Patch7:		%{name}-4.6.1-make.patch
 Patch8:		%{name}-4.6.1-gcc47.patch
 Patch9:		%{name}-4.6.1-magic.patch
+Patch10:	gcc-6.patch
 URL:		http://alumnit.ca/wiki/index.php?page=WvStreams
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	boost-devel
@@ -171,6 +172,7 @@ Obsługa WvStreams dla Valgrinda.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1
 
 %build
 %{__autoconf}
