@@ -108,9 +108,7 @@ Interfejs WvStreams do biblioteki Qt 3 - pliki programistyczne.
 Summary:	API documentation for WvStreams libraries
 Summary(pl.UTF-8):	Dokumentacja API bibliotek WvStreams
 Group:		Documentation
-%if "%{_rpmversion}" >= "5"
 BuildArch:	noarch
-%endif
 
 %description apidocs
 API documentation for WvStreams libraries.
