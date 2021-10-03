@@ -1,8 +1,9 @@
---- wvstreams-4.5/uniconf/uniconf.cc.orig	2008-12-27 01:37:56.000000000 +0000
-+++ wvstreams-4.5/uniconf/uniconf.cc	2008-12-27 01:38:05.000000000 +0000
-@@ -9,7 +9,7 @@
- #include "uniconfgen.h"
- #include "wvstream.h"
+diff -urNp -x '*.orig' wvstreams-4.6.1.org/uniconf/uniconf.cc wvstreams-4.6.1/uniconf/uniconf.cc
+--- wvstreams-4.6.1.org/uniconf/uniconf.cc	2008-12-17 13:32:09.000000000 +0100
++++ wvstreams-4.6.1/uniconf/uniconf.cc	2021-10-03 20:11:39.537542995 +0200
+@@ -11,7 +11,7 @@
+ #include <climits>
+ #include <algorithm>
  #include <assert.h>
 -
 +#include <algorithm>

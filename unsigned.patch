@@ -1,0 +1,11 @@
+--- wvstreams-4.6.1/xplc/moduleloader.cc~	2008-10-22 23:30:00.000000000 +0200
++++ wvstreams-4.6.1/xplc/moduleloader.cc	2021-10-03 20:15:45.663846139 +0200
+@@ -64,7 +64,7 @@
+ 
+   switch(moduleinfo->version_major) {
+ #ifdef UNSTABLE
+-  case -1:
++  case UINT_MAX:
+     /* nothing to do */
+     break;
+ #endif
